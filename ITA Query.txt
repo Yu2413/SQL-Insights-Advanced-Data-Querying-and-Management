@@ -1,0 +1,21 @@
+SELECT 
+    ITA.AssetID, 
+    ITA.AssetType, 
+    ITA.Brand, 
+    E.EmployeeID, 
+    E.FirstName, 
+    E.LastName, 
+    AA.AssignmentDate, 
+    AM.LastMaintenanceDate,
+    DATEDIFF(CURRENT_DATE, AM.LastMaintenanceDate) as DaysSinceLastMaintenance
+FROM IT_Assets ITA
+LEFT JOIN Asset_Assignments AA ON ITA.AssetID = AA.AssetID AND AA.ReturnDate IS NULL
+LEFT JOIN Employees E ON AA.EmployeeID = E.EmployeeID
+LEFT JOIN (
+    SELECT AssetID, MAX(MaintenanceDate) as LastMaintenanceDate
+    FROM Asset_Maintenance
+    GROUP BY AssetID
+) AM ON ITA.AssetID = AM.AssetID
+WHERE ITA.MaintenanceInterval < DATEDIFF(CURRENT_DATE, AM.LastMaintenanceDate)
+AND ITA.Status = 'Active'
+ORDER BY DaysSinceLastMaintenance DESC;
