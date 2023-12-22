@@ -1,0 +1,7 @@
+SELECT E.EmployeeID, E.FirstName, E.LastName, E.Department, SUM(S.Amount) as TotalSales
+FROM Employees E
+JOIN Sales S ON E.EmployeeID = S.EmployeeID
+WHERE S.Date BETWEEN '2023-01-01' AND '2023-12-31'
+GROUP BY E.EmployeeID, E.FirstName, E.LastName, E.Department
+HAVING SUM(S.Amount) > 10000
+ORDER BY TotalSales DESC;
