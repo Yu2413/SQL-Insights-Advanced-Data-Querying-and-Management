@@ -1,0 +1,5 @@
+SELECT EmployeeID, FirstName, LastName, Department, Salary
+FROM Employees
+WHERE Department IN ('Sales', 'Marketing')
+AND Salary > 50000
+ORDER BY Department, Salary DESC;

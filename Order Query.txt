@@ -1,0 +1,4 @@
+SELECT OrderID, CustomerID, ProductName, Quantity, OrderDate
+FROM Orders
+WHERE Quantity > 2
+ORDER BY OrderDate DESC;
