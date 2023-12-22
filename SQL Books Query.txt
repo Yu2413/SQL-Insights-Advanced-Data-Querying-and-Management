@@ -1,0 +1,5 @@
+SELECT BookID, Title, Author, Genre, YearPublished, Price
+FROM Books
+WHERE Genre = 'Science Fiction' OR Genre = 'Fantasy'
+AND YearPublished >= 2000
+ORDER BY Price DESC, YearPublished;
