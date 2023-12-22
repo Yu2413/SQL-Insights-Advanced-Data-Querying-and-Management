@@ -1,0 +1,15 @@
+SELECT 
+    A.AssetID, 
+    A.AssetName, 
+    A.PurchaseDate, 
+    E.EmployeeID, 
+    E.FirstName, 
+    E.LastName, 
+    AA.AssignmentDate, 
+    DATEDIFF(CURRENT_DATE, AA.AssignmentDate) as DaysAssigned
+FROM Assets A
+JOIN AssetAssignments AA ON A.AssetID = AA.AssetID
+JOIN Employees E ON AA.EmployeeID = E.EmployeeID
+WHERE AA.ReturnDate IS NULL
+AND A.Status = 'Assigned'
+ORDER BY DaysAssigned DESC;
