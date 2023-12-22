@@ -1,0 +1,32 @@
+SELECT 
+    D.DepartmentID, 
+    D.DepartmentName, 
+    AVG(S.TotalSales) as AvgSales, 
+    EMax.FirstName as TopSellerFirstName, 
+    EMax.LastName as TopSellerLastName, 
+    EMax.TotalSales as TopSellerSales
+FROM Departments D
+JOIN (
+    SELECT EmployeeID, DepartmentID, SUM(Amount) as TotalSales
+    FROM Sales
+    GROUP BY EmployeeID, DepartmentID
+    HAVING SUM(Amount) > 50000
+) S ON D.DepartmentID = S.DepartmentID
+JOIN Employees E ON S.EmployeeID = E.EmployeeID
+JOIN (
+    SELECT DepartmentID, MAX(TotalSales) as MaxSales
+    FROM (
+        SELECT DepartmentID, EmployeeID, SUM(Amount) as TotalSales
+        FROM Sales
+        GROUP BY DepartmentID, EmployeeID
+    ) DeptSales
+    GROUP BY DepartmentID
+) MaxDeptSales ON D.DepartmentID = MaxDeptSales.DepartmentID
+JOIN (
+    SELECT EmployeeID, FirstName, LastName, SUM(Amount) as TotalSales
+    FROM Sales
+    JOIN Employees ON Sales.EmployeeID = Employees.EmployeeID
+    GROUP BY EmployeeID, FirstName, LastName
+) EMax ON D.DepartmentID = EMax.DepartmentID AND MaxDeptSales.MaxSales = EMax.TotalSales
+GROUP BY D.DepartmentID, D.DepartmentName, EMax.FirstName, EMax.LastName, EMax.TotalSales
+ORDER BY AvgSales DESC;
