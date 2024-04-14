@@ -1,0 +1,5 @@
+SELECT                      Customers.CustomerName, SUM(Orders.OrderTotal) AS Expr1, Customers.CustomerID
+FROM                         Customers INNER JOIN
+                                      Orders ON Customers.CustomerID = Orders.CustomerID
+WHERE                       (Orders.OrderDate >= CONVERT(DATETIME, '2022-02-18 00:00:00', 102))
+GROUP BY              Customers.CustomerName, Customers.CustomerID
