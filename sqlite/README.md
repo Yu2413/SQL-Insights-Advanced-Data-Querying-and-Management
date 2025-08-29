@@ -1,0 +1,1 @@
+A compact showcase of practical SQL skills using SQLite. The repo walks from beginner to intermediate tasks on real-world mini datasets, showing how to design schemas, load data, and answer business-style questions with clear, reproducible queries.
